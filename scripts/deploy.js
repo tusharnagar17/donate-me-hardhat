@@ -29,7 +29,7 @@ async function consoleBalance(addresses) {
   }
 }
 
-function getAllDonor(data) {
+function ConsoleAllDonor(data) {
   for (const ptr of data) {
     console.log(
       `At ${ptr.timestamp}, name: ${ptr.name}, address: ${ptr.from}, message: ${ptr.message}`
@@ -54,7 +54,8 @@ async function main() {
   // step
   // 1.deploy
   console.log("Contract Owner :", owner.address);
-  const contract = await hre.ethers.deployContract("DonateMe");
+  const DonateMe = await hre.ethers.getContractFactory("DonateMe");
+  const contract = await DonateMe.deploy();
 
   // 2. wait for deployed.
   await contract.waitForDeployment();
@@ -73,6 +74,9 @@ async function main() {
   // After buying
 
   consoleBalance(allAccount);
+
+  const AllDonor = await contract.getAllDonor();
+  ConsoleAllDonor(AllDonor);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
